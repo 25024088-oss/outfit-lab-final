@@ -463,10 +463,12 @@
     }
 
     .card-manocanh .thumb img {
-      width: 60%;
+      height: calc(100% - 12px);
+      width: auto;
       max-height: none;
-      object-position: 50% 0;
-      margin-top: 6px;
+      max-width: none;
+      object-fit: contain;
+      margin: 0;
     }
 
     .card-info {
@@ -813,12 +815,42 @@
     };
 
     const PATTERNS_CONFIG = [
-      { id: 'none',       name: 'Không họa tiết' },
-      { id: 'rongphuong', name: 'Rồng phượng' },
-      { id: 'hoasen',     name: 'Hoa sen' },
-      { id: 'hoacuc',     name: 'Hoa cúc' },
-      { id: 'chuTho',     name: 'Chữ Thọ' },
-      { id: 'chuBatBuu',  name: 'Bát Bửu' }
+      {
+        id: 'none',
+        name: 'Không họa tiết',
+        title: 'Ý nghĩa họa tiết',
+        desc: 'Chọn một họa tiết để tìm hiểu ý nghĩa văn hóa và biểu tượng truyền thống.'
+      },
+      {
+        id: 'rongphuong',
+        name: 'Rồng phượng',
+        title: 'Rồng phượng',
+        desc: 'Rồng đại diện cho nguyên khí Dương, thiên tử, hoàng quyền, mưa thuận gió hòa; Phượng đại diện cho nguyên khí Âm, mẫu nghi thiên hạ, đức hạnh cao quý và vẻ đẹp lộng lẫy. Trong đời sống dân gian, sự kết đôi của rồng và phượng là biểu tượng tối thượng của đôi lứa môn đăng hộ đối, vợ chồng hòa thuận, trăm năm hạnh phúc.'
+      },
+      {
+        id: 'hoasen',
+        name: 'Hoa sen',
+        title: 'Họa tiết Hoa Sen',
+        desc: 'Trong Phật giáo, hoa sen tượng trưng cho sự giác ngộ, thanh tịnh, “gần bùn mà chẳng hôi tanh mùi bùn”. Trong văn hóa Nho học, hoa sen đại diện cho người quân tử giữ trọn phẩm hạnh liêm khiết giữa cõi trần thế biến động.'
+      },
+      {
+        id: 'hoacuc',
+        name: 'Hoa cúc',
+        title: 'Họa tiết Hoa Cúc',
+        desc: 'Hoa cúc là loài hoa nở vào mùa thu, biểu trưng cho sự nhẫn nại, kiên cường vượt qua sương giá. Cúc tàn nhưng cánh hoa không rụng xuống đất (“Diệp bất ly chi, hoa vô lạc địa” – lá không rời cành, hoa không rụng đất)'
+      },
+      {
+        id: 'chuTho',
+        name: 'Chữ Thọ',
+        title: 'Thọ',
+        desc: 'Chữ Thọ (壽) là lời nguyện cầu căn bản nhất của con người: sống lâu, mạnh khỏe, an nhiên hưởng phúc ấm, là một trong 5 phúc lớn của đời người (Ngũ Phúc: Phú, Quý, Thọ, Khang, Ninh).'
+      },
+      {
+        id: 'chuBatBuu',
+        name: 'Bát Bửu',
+        title: 'Bát Bửu',
+        desc: 'Gồm Bút, Nghiên, Sách (hoặc Cuốn thư), Đàn, Quạt, Bầu rượu, Gươm kiếm, Phất trần (hoặc Khánh đá/Ngọc như ý). Hệ thống này đề cao tri thức, tài hoa văn võ song toàn, đạo đức và sự thanh cao.'
+      }
     ];
 
     const ACCESSORIES_CONFIG = {
@@ -1501,6 +1533,11 @@
           `;
           contentEl.innerHTML = patsHtml;
 
+          // Hiển thị khung ghi chú văn hóa cho họa tiết
+          noteEl.style.display = 'block';
+          const curPat = PATTERNS_CONFIG.find(p => p.id === S.pat) || PATTERNS_CONFIG[0];
+          noteEl.innerHTML = `<b>${curPat.title}</b>${curPat.desc}`;
+
           // Thumbnail họa tiết: áo hiện tại với màu hiện tại + họa tiết với độ đậm 0.7
           const tCfgPat = TOPS_CONFIG[S.top];
           PATTERNS_CONFIG.forEach(p => {
@@ -1524,7 +1561,6 @@
             updateStage();
           };
           break;
-
         /* BƯỚC 6: PHỤ KIỆN */
         case 6:
           titleEl.textContent = 'Phụ kiện';
