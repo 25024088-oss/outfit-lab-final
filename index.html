@@ -1,0 +1,1963 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phòng Thử Đồ Cổ Phục Việt</title>
+
+  <!-- Google Fonts: Cormorant Garamond & Be Vietnam Pro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600;1,700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       1. THIẾT KẾ & BIẾN MÀU
+       ========================================================= */
+    :root {
+      --ink: #1C2033;
+      --muted: #666A7A;
+      --paper: #F3F2EE;
+      --card: #FFFFFF;
+      --line: #DAD7CD;
+      --cham: #1D2A4B;
+      --cham-2: #2A3B66;
+      --son: #9E2A2B;
+      --gold: #B8923F;
+      --font-serif: 'Cormorant Garamond', 'Noto Serif', Georgia, serif;
+      --font-sans: 'Be Vietnam Pro', 'Segoe UI', system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    button:focus-visible, input:focus-visible, .card:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    /* =========================================================
+       2. MÀN INTRO
+       ========================================================= */
+    #intro-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background-color: var(--paper);
+      overflow-y: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 28px;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    #intro-screen.hide {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro-container {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 48px;
+      max-width: 1120px;
+      width: 100%;
+      align-items: center;
+    }
+
+    .intro-left h1 {
+      font-family: var(--font-serif);
+      font-size: 58px;
+      line-height: 1.02;
+      color: var(--cham);
+      font-weight: 700;
+    }
+
+    .intro-lead {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 18px 0 28px;
+    }
+
+    .intro-facts {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .intro-fact-block {
+      border-left: 3px solid var(--gold);
+      padding-left: 16px;
+    }
+
+    .intro-fact-block h3 {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      color: var(--cham);
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .intro-fact-block p {
+      font-size: 14px;
+      color: #4B4F60;
+      max-width: 540px;
+    }
+
+    .intro-preview-panel {
+      position: relative;
+      background: radial-gradient(120% 90% at 50% 20%, var(--cham-2) 0%, var(--cham) 62%, #141D36 100%);
+      border-radius: 6px;
+      padding: 22px 10px 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      box-shadow: 0 16px 36px rgba(20,29,54,0.25);
+    }
+
+    .intro-preview-panel::before {
+      content: '';
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(184, 146, 63, 0.55);
+      border-radius: 3px;
+      pointer-events: none;
+    }
+
+    /* =========================================================
+       3. NÚT BẤM (BUTTONS)
+       ========================================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 13px 26px;
+      border-radius: 4px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      transition: background-color 0.2s, border-color 0.2s, opacity 0.2s;
+    }
+
+    .btn-primary {
+      background-color: var(--son);
+      color: #FFFFFF;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background-color: #852122;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background-color: transparent;
+      color: var(--cham);
+      border: 1px solid var(--line);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      border-color: var(--cham);
+    }
+
+    /* =========================================================
+       4. HEADER CỦA ỨNG DỤNG & STEPPER
+       ========================================================= */
+    .app-header {
+      background-color: var(--cham);
+      color: #FFFFFF;
+      padding: 14px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .brand-name {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 0.5px;
+    }
+
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.55);
+      padding: 0;
+      font-size: 13.5px;
+      transition: color 0.2s;
+    }
+
+    .step-item:disabled {
+      cursor: not-allowed;
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .step-item.accessible {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .step-item.active {
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    .step-circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    .step-item.active .step-circle {
+      background-color: var(--gold);
+      color: var(--cham);
+      border-color: var(--gold);
+    }
+
+    .step-divider {
+      width: 22px;
+      height: 1px;
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+
+    /* =========================================================
+       5. BỐ CỤC CHÍNH (MAIN LAYOUT)
+       ========================================================= */
+    .main-layout {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 30px 28px 48px;
+      display: grid;
+      grid-template-columns: minmax(300px, 440px) 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* GƯƠNG THỬ ĐỒ */
+    .mirror-column {
+      position: sticky;
+      top: 20px;
+    }
+
+    .mirror-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .mirror-title {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      color: var(--cham);
+      font-weight: 700;
+    }
+
+    .gender-label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .mirror-panel {
+      position: relative;
+      background: radial-gradient(120% 90% at 50% 20%, var(--cham-2) 0%, var(--cham) 62%, #141D36 100%);
+      border-radius: 6px;
+      padding: 26px 22px 14px;
+      box-shadow: 0 10px 28px rgba(20,29,54,0.18);
+      overflow: hidden;
+    }
+
+    .mirror-panel::before {
+      content: '';
+      position: absolute;
+      inset: 10px;
+      border: 1px solid rgba(184, 146, 63, 0.55);
+      border-radius: 3px;
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .mirror-shadow {
+      position: absolute;
+      width: 46%;
+      height: 5%;
+      bottom: 4.5%;
+      left: 27%;
+      border-radius: 50%;
+      background: radial-gradient(ellipse at center, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* SÂN KHẤU TỌA ĐỘ MANOCANH (.stage) */
+    .stage {
+      position: relative;
+      width: 100%;
+      height: min(70vh, 700px);
+      z-index: 2;
+    }
+
+    .stage img, .stage canvas {
+      position: absolute;
+      display: block;
+      pointer-events: none;
+    }
+
+    /* CỘT ĐIỀU KHIỂN & BƯỚC */
+    .control-column {
+      min-width: 0;
+    }
+
+    .step-heading {
+      font-family: var(--font-serif);
+      font-size: 34px;
+      line-height: 1.1;
+      color: var(--cham);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .step-desc {
+      font-size: 14.5px;
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 22px;
+    }
+
+    /* THẺ CHỌN (.card) */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+      gap: 14px;
+    }
+
+    .grid.two {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid.compact {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 12px;
+    }
+
+    .card {
+      position: relative;
+      background-color: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      text-align: left;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--cham);
+    }
+
+    .card.selected {
+      border-color: var(--son);
+      box-shadow: 0 0 0 1px var(--son);
+    }
+
+    .card.selected::after {
+      content: '✓';
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 22px;
+      height: 22px;
+      background-color: var(--son);
+      color: #FFFFFF;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: bold;
+      z-index: 4;
+    }
+
+    .card .thumb {
+      width: 100%;
+      height: 150px;
+      background: linear-gradient(180deg, var(--cham-2) 0%, var(--cham) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card.compact .thumb {
+      height: 130px;
+    }
+
+    .card .thumb img, .card .thumb canvas {
+      max-width: 85%;
+      max-height: 85%;
+      object-fit: contain;
+    }
+
+    /* Đặc thù manocanh thẻ bước 1 */
+    .card-manocanh .thumb {
+      height: 170px;
+    }
+
+    .card-manocanh .thumb img {
+      width: 60%;
+      max-height: none;
+      object-position: 50% 0;
+      margin-top: 6px;
+    }
+
+    .card-info {
+      padding: 12px 14px;
+      flex-grow: 1;
+    }
+
+    .card.compact .card-info {
+      padding: 10px 10px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .card.compact .card-title {
+      font-size: 13.5px;
+    }
+
+    .card-sub {
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    /* KHUNG GHI CHÚ (.note) */
+    .note {
+      margin-top: 20px;
+      padding: 14px 16px;
+      background-color: #EDEAE0;
+      border-left: 3px solid var(--gold);
+      color: #3C4052;
+      font-size: 14px;
+      min-height: 70px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .note b {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 18px;
+      color: var(--cham);
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    /* MÀU SẮC (SWATCHES) */
+    .color-group {
+      margin-bottom: 24px;
+    }
+
+    .color-group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .color-group-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .color-group-name {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .swatch-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .swatch-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.15s;
+    }
+
+    .swatch-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .swatch-btn.selected {
+      outline: 2px solid var(--son);
+      outline-offset: 3px;
+    }
+
+    .custom-swatch-wrap {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: 6px;
+    }
+
+    .custom-swatch-label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .custom-color-input {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      padding: 0;
+      background: none;
+      -webkit-appearance: none;
+    }
+
+    .custom-color-input::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .custom-color-input::-webkit-color-swatch {
+      border: none;
+      border-radius: 50%;
+    }
+
+    .custom-color-input.selected {
+      outline: 2px solid var(--son);
+      outline-offset: 3px;
+    }
+
+    /* THANH TRƯỢT HỌA TIẾT */
+    .slider-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .slider-label {
+      font-size: 13px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .range-input {
+      flex: 1;
+      max-width: 260px;
+      accent-color: var(--son);
+      cursor: pointer;
+    }
+
+    .slider-val {
+      font-size: 13.5px;
+      color: var(--ink);
+      font-weight: 500;
+      min-width: 40px;
+    }
+
+    /* KHUNG NÚT ĐIỀU HƯỚNG BƯỚC */
+    .step-actions {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .step-summary-text {
+      margin-top: 14px;
+      font-size: 13px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* =========================================================
+       6. MOBILE RESPONSIVE
+       ========================================================= */
+    @media (max-width: 900px) {
+      #intro-screen {
+        padding: 32px 20px;
+        align-items: flex-start;
+      }
+
+      .intro-container {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .intro-preview-panel {
+        order: -1;
+        max-width: 420px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .intro-left h1 {
+        font-size: 44px;
+      }
+
+      .app-header {
+        padding: 12px 16px;
+      }
+
+      .stepper .step-item span.step-label {
+        display: none;
+      }
+
+      .stepper .step-item.active span.step-label {
+        display: inline;
+      }
+
+      .stepper .step-divider {
+        width: 12px;
+      }
+
+      .main-layout {
+        grid-template-columns: 1fr;
+        padding: 20px 16px 40px;
+        gap: 24px;
+      }
+
+      .mirror-column {
+        position: static;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =======================================================
+       MÀN INTRO
+       ======================================================= -->
+  <div id="intro-screen">
+    <div class="intro-container">
+      <div class="intro-left">
+        <h1>Phòng Thử Đồ Cổ Phục Việt</h1>
+        <p class="intro-lead">Khám phá chuẩn mực cốt cách xưa, kiến tạo phong thái sang trọng đương đại thông qua công nghệ phục dựng trực quan.</p>
+        
+        <div class="intro-facts">
+          <div class="intro-fact-block">
+            <h3>Thực trạng và nhu cầu</h3>
+            <p>Hiện nay, trong các sự kiện trọng đại, người Việt thường có xu hướng rập khuôn lựa chọn Âu phục. Mặc dù giới trẻ khao khát tìm về bản sắc, họ gặp rào cản lớn: thiếu kiến thức về cách phối hợp các lớp áo (layering), phụ kiện và màu sắc cổ phục sao cho đúng chuẩn mà vẫn tôn vóc dáng.</p>
+          </div>
+          <div class="intro-fact-block">
+            <h3>Giải pháp công nghệ</h3>
+            <p>Ứng dụng giúp trực quan hóa quá trình mix & match, phá bỏ tâm lý e ngại. Bằng cách cá nhân hóa trải nghiệm (phối màu theo Personal Color), người dùng tự tin lựa chọn trang phục truyền thống thay thế hoàn toàn Âu phục, đảm bảo tính sang trọng, thời thượng.</p>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" id="btn-start-intro">Bắt đầu thử đồ</button>
+      </div>
+
+      <div class="intro-preview-panel">
+        <div id="intro-stage-female" class="stage" style="height: 380px;"></div>
+        <div id="intro-stage-male" class="stage" style="height: 380px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =======================================================
+       HEADER CỦA ỨNG DỤNG
+       ======================================================= -->
+  <header class="app-header">
+    <div class="brand-name">Phòng Thử Đồ Cổ Phục</div>
+    <nav class="stepper" id="app-stepper"></nav>
+  </header>
+
+  <!-- =======================================================
+       MAIN LAYOUT
+       ======================================================= -->
+  <main class="main-layout">
+    <!-- Cột trái: Gương thử đồ -->
+    <div class="mirror-column">
+      <div class="mirror-header">
+        <h2 class="mirror-title">Gương thử đồ</h2>
+        <span class="gender-label" id="mirror-gender-label">Manocanh nữ</span>
+      </div>
+      <div class="mirror-panel">
+        <div class="mirror-shadow"></div>
+        <div id="main-stage" class="stage"></div>
+      </div>
+    </div>
+
+    <!-- Cột phải: Khối điều khiển từng bước -->
+    <div class="control-column">
+      <h2 class="step-heading" id="step-title">Chọn manocanh</h2>
+      <p class="step-desc" id="step-description">Chọn manocanh nam hoặc nữ để bắt đầu thử cổ phục.</p>
+
+      <!-- Vùng nội dung tương tác động -->
+      <div id="step-content"></div>
+
+      <!-- Khung ghi chú giải nghĩa lịch sử/văn hóa -->
+      <div class="note" id="step-note" style="display: none;"></div>
+
+      <!-- Nút điều hướng bước -->
+      <div class="step-actions">
+        <button class="btn btn-secondary" id="btn-prev">Quay lại</button>
+        <button class="btn btn-primary" id="btn-next">Tiếp tục: Chọn quần</button>
+      </div>
+
+      <!-- Dòng tóm tắt cấu hình phối đồ -->
+      <div class="step-summary-text" id="step-summary" style="display: none;"></div>
+    </div>
+  </main>
+
+  <script>
+    /**
+     * =========================================================
+     * SỐ LIỆU CỨNG & CẤU HÌNH LOGIC (THEO MỤC 4 & 5)
+     * =========================================================
+     */
+    const WC = 1100;
+    const PAD = 560;
+
+    const BODIES = {
+      female: { mw: 512, mh: 2216, file: 'img/body_female.png' },
+      male:   { mw: 507, mh: 2174, file: 'img/body_male.png' }
+    };
+
+    const TOPS_CONFIG = {
+      nu_ao_tac:    { gender: 'female', name: 'Áo Tấc',         sub: 'Tay thụng, trang trọng', h: 1278, base: 'hoasen', top: 20, dx: 0,
+        history: 'Lễ phục trang trọng thời Nguyễn (thế kỷ 18-20), dành cho mọi tầng lớp. Phần tay áo rộng tới \'một tấc\' (khoảng 40cm) thể hiện sự tôn nghiêm, kín kẽ. Khi giao tiếp, người mặc phải khoanh tay trước ngực, tạo phong thái cung kính, khiêm nhường.' },
+      nu_ao_dai:    { gender: 'female', name: 'Áo Dài',         sub: 'Tà dài ôm dáng',         h: 1804, base: 'hoasen', top: 20, dx: 0,
+        history: 'Áo dài là biểu tượng trang phục của phụ nữ Việt, hình thành từ áo ngũ thân và áo tấc, được cách tân thành dáng ôm eo, tà dài thướt tha, cổ cao kín đáo mà vẫn tôn đường cong.' },
+      nu_ngu_than:  { gender: 'female', name: 'Áo Ngũ Thân',     sub: 'Cổ truyền, tay rộng',     h: 1296, base: 'hoacuc', top: 20, dx: 0,
+        history: 'Áo ngũ thân là dạng áo cổ truyền gồm năm thân vải, cài nút lệch bên phải, tay rộng vừa phải. Đây là nền tảng để từ đó áo dài hiện đại được cách tân.' },
+      nam_ao_tac:   { gender: 'male',   name: 'Áo Tấc Nam',     sub: 'Đĩnh đạc, nho nhã',       h: 1520, base: 'rongphuong', top: 20, dx: 0,
+        history: 'Áo tấc nam là lễ phục của nam giới thời Nguyễn, dáng dài, cài lệch, thể hiện sự điềm đạm, tôn nghiêm. Thường mặc trong lễ tế, hội hè và các dịp trọng đại.' },
+      nam_ao_dai:   { gender: 'male',   name: 'Áo Dài Nam',     sub: 'Tân thời cách tân',      h: 1510, base: 'hoasen', top: 20, dx: 0,
+        history: 'Từng là trang phục quen thuộc của nam giới mọi tầng lớp, nay được cách tân mạnh mẽ để vừa giữ nét tôn nghiêm vừa mang tinh thần hiện đại.' },
+      nam_ngu_than: { gender: 'male',   name: 'Áo Ngũ Thân Nam', sub: 'Cổ truyền, kín kẽ',      h: 1536, base: 'chuTho', top: 20, dx: 0,
+        history: 'Áo ngũ thân nam là kiểu áo cổ truyền, cài nút lệch bên phải, dáng rộng rãi và kín đáo, được dân thường lẫn quan lại ưa chuộng.' }
+    };
+
+    const PANTS_CONFIG = {
+      quan_nu: { gender: 'female', name: 'Quần lụa ống rộng', sub: 'Dáng thướt tha',   k: 1.9,  top: 700, dx: 0, file: 'img/quan_nu_plain.png',
+        desc: 'Quần lụa trắng là dạng quần phổ biến của người Việt xưa khi mặc cùng Áo Tấc và Áo Ngũ Thân. Sắc trắng ngà của tơ tằm đem lại sự trang nhã, tương phản hài hòa với màu áo rực rỡ bên ngoài.' },
+      quan_nam: { gender: 'male',   name: 'Quần lụa nam',      sub: 'Dáng đứng, kín kẽ', k: 1.65, top: 640, dx: 0, file: 'img/quan_nam_plain.png',
+        desc: 'Quần lụa lĩnh hoặc lụa nhuộm củ nâu, mặc nưa đen nhánh. Trang phục mang sắc thái tôn nghiêm, đĩnh đạc và kín kẽ, thường được các bậc trưởng thượng và giới nho sinh ưa chuộng.' }
+    };
+
+    const PATTERNS_CONFIG = [
+      { id: 'none',       name: 'Không họa tiết' },
+      { id: 'rongphuong', name: 'Rồng phượng' },
+      { id: 'hoasen',     name: 'Hoa sen' },
+      { id: 'hoacuc',     name: 'Hoa cúc' },
+      { id: 'chuTho',     name: 'Chữ Thọ' },
+      { id: 'chuBatBuu',  name: 'Bát Bửu' }
+    ];
+
+    const ACCESSORIES_CONFIG = {
+      acc_non:     { name: 'Nón quai thao', gender: 'both',   tint: false, cx: 0,    cy: -260, w: 420, rot: 0,   file: 'img/acc_non.png',
+        sub: 'Chiếc nón rộng vành mang hình ảnh vầng mặt trời bao la, thể hiện nét phóng khoáng, duyên dáng của người phụ nữ Bắc Bộ. Phần quai thao làm bằng dây tơ nhuộm màu ghen kết nối hai bên tượng trưng cho sự gắn kết tình cảm, duyên nợ lứa đôi và sự mềm mại, uyển chuyển.' },
+      acc_man_nu:  { name: 'Mấn nữ',        gender: 'female', tint: true,  cx: 0,    cy: -110, w: 330, rot: 0,   file: 'img/acc_man_nu.png',
+        sub: 'Mấn đội đầu có dạng vòng tròn đóng, tượng trưng cho sự gắn kết, chỉn chu và trang nghiêm. Mấn giúp tôn lên vóc dáng thẳng thắn, tạo sự uy nghi nhưng vẫn giữ được nét thanh lịch. Thời xưa, độ cao và chi tiết trên mấn cũng thể hiện vị thế, địa vị xã hội của người mặc.' },
+      acc_man_nam: { name: 'Mấn nam',       gender: 'male',   tint: true,  cx: 0,    cy: -110, w: 300, rot: 0,   file: 'img/acc_man_nam.png',
+        sub: 'Mấn đội đầu có dạng vòng tròn đóng, tượng trưng cho sự gắn kết, chỉn chu và trang nghiêm. Mấn giúp tôn lên vóc dáng thẳng thắn, tạo sự uy nghi nhưng vẫn giữ được nét thanh lịch. Thời xưa, độ cao và chi tiết trên mấn cũng thể hiện vị thế, địa vị xã hội của người mặc.' },
+      acc_kieng:   { name: 'Kiềng bạc',     gender: 'both',   tint: false, cx: 0,    cy: 110,  w: 330, rot: 0,   file: 'img/acc_kieng.png',
+        sub: 'Hình tròn hoàn hảo của chiếc kiềng biểu trưng cho sự đầy đặn, vĩnh cửu và viên mãn. Trong quan niệm dân gian, đồ bạc còn mang ý nghĩa trừ tà, kỵ gió và bảo vệ sức khỏe cho người đeo. Khi phối cùng trang phục truyền thống, kiềng bạc tạo điểm nhấn thanh tao, tôn vinh nét đài các, sang trọng của người phụ nữ.' },
+      acc_quat:    { name: 'Quạt xếp',      gender: 'both',   tint: true,  cx: 350,  cy: 850,  w: 360, rot: -25, file: 'img/acc_quat.png',
+        sub: 'Hình dáng xòe rộng của quạt đại diện cho sự khai mở, lan tỏa may mắn, tài lộc và làn gió mát lành. Các nếp gấp đồng đều thể hiện sự trật tự, chỉn chu. Ngoài ra, chiếc quạt xếp cầm tay còn phản ánh nét văn hóa ứng xử kín đáo, e ấp và tinh tế của người Việt xưa.' },
+      acc_tui:     { name: 'Túi gấm',       gender: 'female', tint: true,  cx: -340, cy: 950,  w: 300, rot: 0,   file: 'img/acc_tui.png',
+        sub: 'Chất liệu gấm dệt hoa văn tỉ mỉ là biểu tượng của sự phú quý, giàu sang và cát tường. Túi gấm nhỏ gọn vừa là điểm nhấn màu sắc, vừa mang ý nghĩa cất giữ tài lộc, bình an và những điều may mắn cho chủ nhân.' }
+    };
+
+    const SHOES_CONFIG = {
+      guocgo_nu:   { name: 'Guốc gỗ nữ',   gender: 'female', tint: false, cx: 0, cy: 1940, w: 260, rot: 0, file: 'img/guocgo_nu.png',
+        sub: 'Guốc nữ thường có gót cao vừa phải, thắt eo duyên dáng, phần đế gỗ được mài nhẵn khoe vân tự nhiên (như gỗ xoan, mít, hay trầm). Quai guốc có thể là vải, da trâu thô sơ thời xưa hay nhung, thổ cẩm thời nay.' },
+      guocgo_nam:  { name: 'Guốc gỗ nam',  gender: 'male',   tint: false, cx: 0, cy: 1910, w: 270, rot: 0, file: 'img/guocgo_nam.png',
+        sub: 'Khác với guốc nữ điệu đà, guốc gỗ nam có dáng đế bệt hoặc phẳng lì, bản rộng, vuông vức ở mũi để tạo sự vững chãi, khỏe khoắn. Quai xỏ ngón (quai kẹp) hoặc quai ngang bản to bằng da, cao su hoặc vải canvas tối màu là đặc trưng giúp các quý ông dễ dàng di chuyển nhanh nhẹn.' },
+      giayda_nam:  { name: 'Giày da',      gender: 'male',   tint: false, cx: 0, cy: 1910, w: 280, rot: 0, file: 'img/giayda_nam.png',
+        sub: 'Giày da cổ điển (như dòng Oxford, Derby hay Brogues với họa tiết đục lỗ) có nguồn gốc từ Scotland và Ireland từ nhiều thế kỷ trước, ban đầu được thiết kế cho những người đàn ông lao động ngoài trời để nước dễ thoát ra ngoài qua các lỗ đục. Đến thế kỷ XIX, chúng trở thành biểu tượng của sự lịch lãm, đẳng cấp dành cho giới thượng lưu và nam giới công sở trên toàn thế giới.' },
+      haitheu_nu:   { name: 'Hài thêu',     gender: 'female', tint: true,  cx: 0, cy: 1940, w: 270, rot: 0, file: 'img/haitheu_nu.png',
+        sub: 'Hài được làm từ vải lụa, gấm hoặc nhung cao cấp, sau đó các nghệ nhân sẽ thêu tay các họa tiết mang ý nghĩa tốt lành như hoa sen (biểu tượng thanh cao), mây trời, phượng hoàng (đối với nữ quý tộc) hay rồng mây (đối với vua chúa, hoàng tử). Phần mũi hài thường cong nhẹ lên (mũi thuyền) đầy kiêu kỳ và được đính thêm ngọc trai hoặc tua rua.' }
+    };
+
+    const PALETTE = [
+      { name: 'Trắng ngà',        hex: '#FFFFFF' },
+      { name: 'Đỏ điều',          hex: '#B3262E' },
+      { name: 'Vàng nghệ',        hex: '#E0A526' },
+      { name: 'Cam gạch',         hex: '#C9602F' },
+      { name: 'Hồng đào',         hex: '#E09AA6' },
+      { name: 'Tím sen',          hex: '#7A5A9E' },
+      { name: 'Xanh chàm',        hex: '#2C3E6B' },
+      { name: 'Xanh thiên thanh', hex: '#6FA3C7' },
+      { name: 'Xanh ngọc',        hex: '#3F8F7B' },
+      { name: 'Xanh rêu',         hex: '#667A3B' },
+      { name: 'Nâu đất',          hex: '#7A4B32' },
+      { name: 'Đen huyền',        hex: '#25252D' }
+    ];
+
+    const STEP_NAMES = [
+      'Manocanh',
+      'Quần',
+      'Áo',
+      'Màu sắc',
+      'Họa tiết',
+      'Phụ kiện',
+      'Giày dép'
+    ];
+
+    /**
+     * BỘ NHỚ ĐỆM ẢNH & THUỘC TÍNH TIỀN XỬ LÝ
+     */
+    const SRC = {};           // SRC[key] = { w, h, d: ImageData }
+    const ACC_REF = {};       // ACC_REF[key] = ref value (mục 5b)
+    const THUMB_CACHE = {};   // THUMB_CACHE[key] = dataURL
+
+    /**
+     * TRẠNG THÁI ỨNG DỤNG (STATE)
+     */
+    const S = {
+      step: 1,
+      max: 1,
+      gender: 'female',
+      pants: null,
+      top: null,
+      pc: '#FFFFFF',          // Pants color
+      tc: '#FFFFFF',          // Top color
+      pat: 'none',            // Pattern
+      po: 0.55,               // Pattern opacity
+      acc: {},                // acc[id] = { on: bool, color: hex }
+      shoe: null,             // ID giày dép đang chọn
+      shoeColor: '#FFFFFF'    // Màu giày dép (nếu tint)
+    };
+
+    // Khởi tạo phụ kiện
+    Object.keys(ACCESSORIES_CONFIG).forEach(k => {
+      S.acc[k] = { on: false, color: '#FFFFFF' };
+    });
+
+    /**
+     * =========================================================
+     * TIỆN ÍCH XỬ LÝ MÀU VÀ CANVAS
+     * =========================================================
+     */
+    function hexToRgb(hex) {
+      let c = hex.replace('#', '');
+      if (c.length === 3) c = c.split('').map(x => x + x).join('');
+      const n = parseInt(c, 16);
+      return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+    }
+
+    function getColorName(hex) {
+      const match = PALETTE.find(p => p.hex.toLowerCase() === hex.toLowerCase());
+      return match ? match.name : 'Màu tự chọn';
+    }
+
+    function clamp(val, min, max) {
+      return Math.max(min, Math.min(max, val));
+    }
+
+    /**
+     * TẢI VÀ NẠP DỮ LIỆU PIXEL TỪ CANVAS (CHẠY 1 LẦN DUY NHẤT)
+     */
+    function loadImg(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => {
+          const cvs = document.createElement('canvas');
+          cvs.width = img.naturalWidth || img.width;
+          cvs.height = img.naturalHeight || img.height;
+          const ctx = cvs.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          try {
+            const idata = ctx.getImageData(0, 0, cvs.width, cvs.height);
+            resolve({ w: cvs.width, h: cvs.height, d: idata, img: img });
+          } catch (e) {
+            console.warn('Không thể đọc pixel trực tiếp:', url, e);
+            resolve({ w: cvs.width, h: cvs.height, d: null, img: img });
+          }
+        };
+        img.onerror = () => {
+          console.warn('Không tải được ảnh:', url);
+          resolve(null);
+        };
+        img.src = url;
+      });
+    }
+
+    /**
+     * THUẬT TOÁN ĐỔI MÀU ÁO / QUẦN THEO KÊNH (MỤC 5a)
+     */
+    function tint(srcKey, hex, patActive, poVal) {
+      const item = SRC[srcKey];
+      if (!item || !item.d) return null;
+
+      const [r, g, b] = hexToRgb(hex);
+      const w = item.w, h = item.h;
+      const cvs = document.createElement('canvas');
+      cvs.width = w;
+      cvs.height = h;
+      const ctx = cvs.getContext('2d');
+
+      const out = ctx.createImageData(w, h);
+      const srcD = item.d.data;
+      const dstD = out.data;
+      const len = srcD.length;
+
+      for (let i = 0; i < len; i += 4) {
+        const R = srcD[i];
+        const G = srcD[i + 1];
+        const A = srcD[i + 3];
+
+        if (A === 0) continue;
+
+        const sn = Math.min(1, R / 247);
+        const shade = Math.max(0.45, 1 - Math.pow(1 - sn, 1.3));
+        const t = clamp((sn - 0.18) / 0.45, 0, 1);
+
+        let cr = 22 * (1 - t) + r * shade * t;
+        let cg = 20 * (1 - t) + g * shade * t;
+        let cb = 26 * (1 - t) + b * shade * t;
+
+        if (patActive) {
+          const a = (G / 255) * poVal * t;
+          cr = cr * (1 - a) + 255 * a;
+          cg = cg * (1 - a) + 255 * a;
+          cb = cb * (1 - a) + 255 * a;
+        }
+
+        dstD[i]     = cr;
+        dstD[i + 1] = cg;
+        dstD[i + 2] = cb;
+        dstD[i + 3] = A;
+      }
+
+      ctx.putImageData(out, 0, 0);
+      return cvs;
+    }
+
+    /**
+     * TIỀN XỬ LÝ PHỤ KIỆN TINT (MỤC 5b)
+     */
+    function prepareAcc(key) {
+      const item = SRC[key];
+      if (!item || !item.d) {
+        ACC_REF[key] = 240;
+        return;
+      }
+      const data = item.d.data;
+      const len = data.length;
+      const lums = [];
+
+      for (let i = 0; i < len; i += 16) {
+        const a = data[i + 3];
+        if (a > 200) {
+          const r = data[i], g = data[i + 1], b = data[i + 2];
+          const diff = Math.max(r, g, b) - Math.min(r, g, b);
+          if (diff < 30) {
+            lums.push(0.3 * r + 0.59 * g + 0.11 * b);
+          }
+        }
+      }
+
+      if (lums.length === 0) {
+        ACC_REF[key] = 240;
+      } else {
+        lums.sort((x, y) => x - y);
+        const idx = Math.floor(lums.length * 0.92);
+        ACC_REF[key] = lums[Math.min(idx, lums.length - 1)] || 240;
+      }
+    }
+
+    /**
+     * THUẬT TOÁN TÔ MÀU PHỤ KIỆN TINT (MỤC 5b)
+     */
+    function tintAcc(srcKey, hex) {
+      const item = SRC[srcKey];
+      if (!item || !item.d) return null;
+
+      const ref = ACC_REF[srcKey] || 240;
+      const [ur, ug, ub] = hexToRgb(hex);
+      const w = item.w, h = item.h;
+      const cvs = document.createElement('canvas');
+      cvs.width = w;
+      cvs.height = h;
+      const ctx = cvs.getContext('2d');
+
+      const out = ctx.createImageData(w, h);
+      const s = item.d.data;
+      const d = out.data;
+      const len = s.length;
+
+      for (let i = 0; i < len; i += 4) {
+        const A = s[i + 3];
+        if (A === 0) continue;
+
+        const r = s[i], g = s[i + 1], b = s[i + 2];
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+
+        if (max - min > 48) {
+          d[i]     = r;
+          d[i + 1] = g;
+          d[i + 2] = b;
+          d[i + 3] = A;
+        } else {
+          const lum = 0.3 * r + 0.59 * g + 0.11 * b;
+          const L = lum / ref;
+          const sn = Math.min(1, L);
+          const shade = Math.max(0.42, 1 - Math.pow(1 - sn, 1.25));
+          const t = clamp((sn - 0.2) / 0.45, 0, 1);
+
+          d[i]     = 22 * (1 - t) + ur * shade * t;
+          d[i + 1] = 20 * (1 - t) + ug * shade * t;
+          d[i + 2] = 26 * (1 - t) + ub * shade * t;
+          d[i + 3] = A;
+        }
+      }
+
+      ctx.putImageData(out, 0, 0);
+      return cvs;
+    }
+
+    /**
+     * TÍNH TOÁN HỘP TỌA ĐỘ VỊ TRÍ % TRÊN SÂN KHẤU (MỤC 4)
+     */
+    function getBox(type, gender, cfg, srcImg) {
+      const body = BODIES[gender];
+      const HT = body.mh + PAD;
+
+      if (type === 'body') {
+        return {
+          left: ((WC - body.mw) / 2 / WC) * 100,
+          top: (PAD / HT) * 100,
+          width: (body.mw / WC) * 100,
+          height: (body.mh / HT) * 100
+        };
+      }
+
+      if (type === 'pants') {
+        const k = cfg.k;
+        const sw = srcImg.w, sh = srcImg.h;
+        const w = sw * k, hh = sh * k;
+        return {
+          left: ((WC / 2 + cfg.dx - w / 2) / WC) * 100,
+          top: ((cfg.top + PAD) / HT) * 100,
+          width: (w / WC) * 100,
+          height: (hh / HT) * 100
+        };
+      }
+
+      if (type === 'top') {
+        const sw = srcImg.w, sh = srcImg.h;
+        const k = cfg.h / sh;
+        const w = sw * k, hh = sh * k;
+        return {
+          left: ((WC / 2 + cfg.dx - w / 2) / WC) * 100,
+          top: ((cfg.top + PAD) / HT) * 100,
+          width: (w / WC) * 100,
+          height: (hh / HT) * 100
+        };
+      }
+
+      if (type === 'acc' || type === 'shoe') {
+        const sw = srcImg.w, sh = srcImg.h;
+        const w = cfg.w;
+        const h = (w * sh) / sw;
+        return {
+          left: ((WC / 2 + cfg.cx - w / 2) / WC) * 100,
+          top: ((PAD + cfg.cy - h / 2) / HT) * 100,
+          width: (w / WC) * 100,
+          height: (h / HT) * 100,
+          rot: cfg.rot || 0
+        };
+      }
+    }
+
+    /**
+     * DỰNG SÂN KHẤU MANOCANH
+     */
+    function renderStage(containerEl, state) {
+      containerEl.innerHTML = '';
+      const gender = state.gender;
+      const body = BODIES[gender];
+      const HT = body.mh + PAD;
+      containerEl.style.aspectRatio = `${WC} / ${HT}`;
+
+      // 1. Thân Manocanh
+      const bodySrc = SRC[`body_${gender}`];
+      if (bodySrc) {
+        const bBox = getBox('body', gender, null, bodySrc);
+        const img = document.createElement('img');
+        img.src = BODIES[gender].file;
+        img.style.left = `${bBox.left}%`;
+        img.style.top = `${bBox.top}%`;
+        img.style.width = `${bBox.width}%`;
+        img.style.height = `${bBox.height}%`;
+        containerEl.appendChild(img);
+      }
+
+      // 2. Quần
+      if (state.pants) {
+        const pCfg = PANTS_CONFIG[state.pants];
+        const pCvs = tint(state.pants, state.pc, false, 0);
+        if (pCvs) {
+          const pBox = getBox('pants', gender, pCfg, SRC[state.pants]);
+          pCvs.style.left = `${pBox.left}%`;
+          pCvs.style.top = `${pBox.top}%`;
+          pCvs.style.width = `${pBox.width}%`;
+          pCvs.style.height = `${pBox.height}%`;
+          containerEl.appendChild(pCvs);
+        }
+      }
+
+      // 3. Áo
+      if (state.top) {
+        const tCfg = TOPS_CONFIG[state.top];
+        const pat = state.pat;
+        const hasPat = pat && pat !== 'none';
+        const key = hasPat ? `${state.top}_${pat}` : `${state.top}_${tCfg.base}`;
+        const tCvs = tint(key, state.tc, hasPat, state.po);
+        if (tCvs) {
+          const tBox = getBox('top', gender, tCfg, SRC[key]);
+          tCvs.style.left = `${tBox.left}%`;
+          tCvs.style.top = `${tBox.top}%`;
+          tCvs.style.width = `${tBox.width}%`;
+          tCvs.style.height = `${tBox.height}%`;
+          containerEl.appendChild(tCvs);
+        }
+      }
+
+      // 4. Phụ kiện
+      Object.keys(ACCESSORIES_CONFIG).forEach(accId => {
+        const accSt = state.acc[accId];
+        if (accSt && accSt.on) {
+          const cfg = ACCESSORIES_CONFIG[accId];
+          let el;
+          if (cfg.tint) {
+            el = tintAcc(accId, accSt.color);
+          } else {
+            el = document.createElement('img');
+            el.src = cfg.file;
+          }
+          if (el) {
+            const aBox = getBox('acc', gender, cfg, SRC[accId]);
+            el.style.left = `${aBox.left}%`;
+            el.style.top = `${aBox.top}%`;
+            el.style.width = `${aBox.width}%`;
+            el.style.height = `${aBox.height}%`;
+            if (aBox.rot) {
+              el.style.transform = `rotate(${aBox.rot}deg)`;
+              el.style.transformOrigin = 'center center';
+            }
+            containerEl.appendChild(el);
+          }
+        }
+      });
+
+      // 5. Giày dép
+      if (state.shoe) {
+        const sCfg = SHOES_CONFIG[state.shoe];
+        if (sCfg) {
+          let sEl;
+          if (sCfg.tint) {
+            sEl = tintAcc(state.shoe, state.shoeColor);
+          } else {
+            sEl = document.createElement('img');
+            sEl.src = sCfg.file;
+          }
+          if (sEl) {
+            const sBox = getBox('shoe', gender, sCfg, SRC[state.shoe]);
+            sEl.style.left = `${sBox.left}%`;
+            sEl.style.top = `${sBox.top}%`;
+            sEl.style.width = `${sBox.width}%`;
+            sEl.style.height = `${sBox.height}%`;
+            containerEl.appendChild(sEl);
+          }
+        }
+      }
+    }
+
+    /**
+     * DỰNG BƯỚC VÀ NỘI DUNG TƯƠNG TÁC
+     */
+    function updateStage() {
+      const stage = document.getElementById('main-stage');
+      renderStage(stage, S);
+    }
+
+    function renderStepper() {
+      const bar = document.getElementById('app-stepper');
+      bar.innerHTML = '';
+      STEP_NAMES.forEach((name, i) => {
+        const stepNum = i + 1;
+        const btn = document.createElement('button');
+        btn.className = 'step-item';
+        if (stepNum === S.step) btn.classList.add('active');
+        if (stepNum <= S.max) btn.classList.add('accessible');
+        btn.disabled = stepNum > S.max;
+
+        btn.innerHTML = `
+          <div class="step-circle">${stepNum}</div>
+          <span class="step-label">${name}</span>
+        `;
+
+        btn.onclick = () => {
+          if (stepNum <= S.max) {
+            S.step = stepNum;
+            renderCurrentStep();
+          }
+        };
+
+        bar.appendChild(btn);
+
+        if (i < STEP_NAMES.length - 1) {
+          const div = document.createElement('div');
+          div.className = 'step-divider';
+          bar.appendChild(div);
+        }
+      });
+    }
+
+    function renderCurrentStep() {
+      renderStepper();
+      updateStage();
+
+      const titleEl = document.getElementById('step-title');
+      const descEl = document.getElementById('step-description');
+      const contentEl = document.getElementById('step-content');
+      const noteEl = document.getElementById('step-note');
+      const btnPrev = document.getElementById('btn-prev');
+      const btnNext = document.getElementById('btn-next');
+      const summaryEl = document.getElementById('step-summary');
+
+      document.getElementById('mirror-gender-label').textContent =
+        S.gender === 'male' ? 'Manocanh nam' : 'Manocanh nữ';
+
+      btnPrev.style.display = S.step === 1 ? 'none' : 'inline-flex';
+      noteEl.style.display = 'none';
+      summaryEl.style.display = 'none';
+
+      switch (S.step) {
+        /* BƯỚC 1: MANOCANH */
+        case 1:
+          titleEl.textContent = 'Chọn manocanh';
+          descEl.textContent = 'Chọn manocanh nam hoặc nữ để bắt đầu thử cổ phục.';
+          btnNext.textContent = 'Tiếp tục: Chọn quần';
+          btnNext.disabled = false;
+
+          contentEl.innerHTML = `
+            <div class="grid two">
+              <div class="card card-manocanh ${S.gender === 'female' ? 'selected' : ''}" id="card-gen-female" tabindex="0">
+                <div class="thumb"><img src="img/body_female.png" alt="Manocanh nữ"></div>
+                <div class="card-info">
+                  <div class="card-title">Manocanh nữ</div>
+                </div>
+              </div>
+              <div class="card card-manocanh ${S.gender === 'male' ? 'selected' : ''}" id="card-gen-male" tabindex="0">
+                <div class="thumb"><img src="img/body_male.png" alt="Manocanh nam"></div>
+                <div class="card-info">
+                  <div class="card-title">Manocanh nam</div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          const switchGen = (g) => {
+            if (S.gender !== g) {
+              S.gender = g;
+              S.pants = null;
+              S.top = null;
+              S.pat = 'none';
+              S.max = 1;
+              Object.keys(ACCESSORIES_CONFIG).forEach(k => { S.acc[k].on = false; });
+              S.shoe = null;
+              renderCurrentStep();
+            }
+          };
+
+          document.getElementById('card-gen-female').onclick = () => switchGen('female');
+          document.getElementById('card-gen-male').onclick = () => switchGen('male');
+          break;
+
+        /* BƯỚC 2: QUẦN */
+        case 2:
+          titleEl.textContent = 'Chọn quần';
+          descEl.textContent = 'Quần là lớp trong cùng, mặc trước khi khoác áo.';
+          btnNext.textContent = 'Tiếp tục: Chọn áo';
+          btnNext.disabled = !S.pants;
+
+          const pId = S.gender === 'female' ? 'quan_nu' : 'quan_nam';
+          const pCfg = PANTS_CONFIG[pId];
+
+          contentEl.innerHTML = `
+            <div class="grid two">
+              <div class="card ${S.pants === pId ? 'selected' : ''}" id="card-pants" tabindex="0">
+                <div class="thumb" id="thumb-pants"></div>
+                <div class="card-info">
+                  <div class="card-title">${pCfg.name}</div>
+                  <div class="card-sub">${pCfg.sub}</div>
+                </div>
+              </div>
+            </div>
+          `;
+
+          // Thumbnail quần
+          const pThumb = tint(pId, '#FFFFFF', false, 0);
+          if (pThumb) document.getElementById('thumb-pants').appendChild(pThumb);
+
+          document.getElementById('card-pants').onclick = () => {
+            S.pants = pId;
+            if (S.max < 2) S.max = 2;
+            renderCurrentStep();
+          };
+
+          noteEl.style.display = 'block';
+          if (!S.pants) {
+            noteEl.innerHTML = `<b>Quần lụa</b>Chọn quần để xem đôi nét về cách mặc truyền thống.`;
+          } else {
+            noteEl.innerHTML = `<b>${pCfg.name}</b>${pCfg.desc}`;
+          }
+          break;
+
+        /* BƯỚC 3: ÁO */
+        case 3:
+          titleEl.textContent = 'Chọn áo';
+          descEl.textContent = 'Form áo ban đầu màu trắng, bạn sẽ đổi màu ở bước sau.';
+          btnNext.textContent = 'Tiếp tục: Phối màu';
+          btnNext.disabled = !S.top;
+
+          const topsForGender = Object.keys(TOPS_CONFIG).filter(k => TOPS_CONFIG[k].gender === S.gender);
+          let topsHtml = '<div class="grid">';
+          topsForGender.forEach(tId => {
+            const cfg = TOPS_CONFIG[tId];
+            topsHtml += `
+              <div class="card ${S.top === tId ? 'selected' : ''}" id="card-top-${tId}" tabindex="0">
+                <div class="thumb" id="thumb-top-${tId}"></div>
+                <div class="card-info">
+                  <div class="card-title">${cfg.name}</div>
+                  <div class="card-sub">${cfg.sub}</div>
+                </div>
+              </div>
+            `;
+          });
+          topsHtml += '</div>';
+          contentEl.innerHTML = topsHtml;
+
+          topsForGender.forEach(tId => {
+            const cfg = TOPS_CONFIG[tId];
+            const tThumb = tint(`${tId}_${cfg.base}`, '#FFFFFF', false, 0);
+            if (tThumb) document.getElementById(`thumb-top-${tId}`).appendChild(tThumb);
+
+            document.getElementById(`card-top-${tId}`).onclick = () => {
+              S.top = tId;
+              S.tc = '#FFFFFF';
+              S.pat = 'none';
+              if (S.max < 3) S.max = 3;
+              renderCurrentStep();
+            };
+          });
+
+          noteEl.style.display = 'block';
+          if (!S.top) {
+            noteEl.innerHTML = `<b>Lịch sử và ý nghĩa</b>Chọn một kiểu áo để đọc về gốc tích của nó.`;
+          } else {
+            const selCfg = TOPS_CONFIG[S.top];
+            noteEl.innerHTML = `<b>${selCfg.name}</b>${selCfg.history}`;
+          }
+          break;
+
+        /* BƯỚC 4: PHỐI MÀU */
+        case 4:
+          titleEl.textContent = 'Phối màu';
+          descEl.textContent = 'Chọn màu có sẵn hoặc tự chọn màu bất kỳ. Nếp vải và đường may được giữ nguyên.';
+          btnNext.textContent = 'Tiếp tục: Họa tiết';
+          btnNext.disabled = false;
+
+          contentEl.innerHTML = `
+            <div class="color-group">
+              <div class="color-group-header">
+                <span class="color-group-title">Màu áo</span>
+                <span class="color-group-name" id="label-top-color">${getColorName(S.tc)}</span>
+              </div>
+              <div class="swatch-row" id="row-top-colors"></div>
+            </div>
+
+            <div class="color-group">
+              <div class="color-group-header">
+                <span class="color-group-title">Màu quần</span>
+                <span class="color-group-name" id="label-pants-color">${getColorName(S.pc)}</span>
+              </div>
+              <div class="swatch-row" id="row-pants-colors"></div>
+            </div>
+          `;
+
+          buildSwatches('row-top-colors', S.tc, (c) => {
+            S.tc = c;
+            document.getElementById('label-top-color').textContent = getColorName(c);
+            updateStage();
+          });
+
+          buildSwatches('row-pants-colors', S.pc, (c) => {
+            S.pc = c;
+            document.getElementById('label-pants-color').textContent = getColorName(c);
+            updateStage();
+          });
+          break;
+
+        /* BƯỚC 5: HỌA TIẾT */
+        case 5:
+          titleEl.textContent = 'Họa tiết';
+          descEl.textContent = 'Họa tiết dệt chìm màu trắng mờ phủ lên màu áo bạn đã chọn.';
+          btnNext.textContent = 'Tiếp tục: Phụ kiện';
+          btnNext.disabled = false;
+
+          let patsHtml = '<div class="grid compact">';
+          PATTERNS_CONFIG.forEach(p => {
+            patsHtml += `
+              <div class="card compact ${S.pat === p.id ? 'selected' : ''}" id="card-pat-${p.id}" tabindex="0">
+                <div class="thumb" id="thumb-pat-${p.id}"></div>
+                <div class="card-info">
+                  <div class="card-title">${p.name}</div>
+                </div>
+              </div>
+            `;
+          });
+          patsHtml += '</div>';
+
+          patsHtml += `
+            <div class="slider-row">
+              <span class="slider-label">Độ đậm họa tiết</span>
+              <input type="range" class="range-input" id="pat-opacity-range" min="15" max="100" value="${Math.round(S.po * 100)}">
+              <span class="slider-val" id="pat-opacity-val">${Math.round(S.po * 100)}%</span>
+            </div>
+          `;
+          contentEl.innerHTML = patsHtml;
+
+          // Thumbnail họa tiết: áo hiện tại với màu hiện tại + họa tiết với độ đậm 0.7
+          const tCfgPat = TOPS_CONFIG[S.top];
+          PATTERNS_CONFIG.forEach(p => {
+            const hasP = p.id !== 'none';
+            const k = hasP ? `${S.top}_${p.id}` : `${S.top}_${tCfgPat.base}`;
+            const cvs = tint(k, S.tc, hasP, 0.7);
+            if (cvs) document.getElementById(`thumb-pat-${p.id}`).appendChild(cvs);
+
+            document.getElementById(`card-pat-${p.id}`).onclick = () => {
+              S.pat = p.id;
+              renderCurrentStep();
+            };
+          });
+
+          const range = document.getElementById('pat-opacity-range');
+          const valEl = document.getElementById('pat-opacity-val');
+          range.oninput = (e) => {
+            const v = e.target.value;
+            S.po = v / 100;
+            valEl.textContent = `${v}%`;
+            updateStage();
+          };
+          break;
+
+        /* BƯỚC 6: PHỤ KIỆN */
+        case 6:
+          titleEl.textContent = 'Phụ kiện';
+          descEl.textContent = 'Bấm để thêm hoặc bỏ phụ kiện. Món màu trắng như mấn, quạt, túi có thể đổi màu.';
+          btnNext.textContent = 'Tiếp tục: Giày dép';
+          btnNext.disabled = false;
+
+          const accKeys = Object.keys(ACCESSORIES_CONFIG).filter(k => {
+            const g = ACCESSORIES_CONFIG[k].gender;
+            return g === 'both' || g === S.gender;
+          });
+
+          let accHtml = '<div class="grid compact">';
+          accKeys.forEach(aId => {
+            const cfg = ACCESSORIES_CONFIG[aId];
+            accHtml += `
+              <div class="card compact ${S.acc[aId].on ? 'selected' : ''}" id="card-acc-${aId}" tabindex="0">
+                <div class="thumb"><img src="${cfg.file}" alt="${cfg.name}"></div>
+                <div class="card-info">
+                  <div class="card-title">${cfg.name}</div>
+                  <div class="card-sub">${cfg.sub}</div>
+                </div>
+              </div>
+            `;
+          });
+          accHtml += '</div>';
+
+          // Bảng chọn màu cho từng món tint đang bật
+          accHtml += '<div id="acc-color-controls" style="margin-top: 24px;"></div>';
+          contentEl.innerHTML = accHtml;
+
+          accKeys.forEach(aId => {
+            document.getElementById(`card-acc-${aId}`).onclick = () => {
+              S.acc[aId].on = !S.acc[aId].on;
+              renderCurrentStep();
+            };
+          });
+
+          const accColWrap = document.getElementById('acc-color-controls');
+          accKeys.forEach(aId => {
+            const cfg = ACCESSORIES_CONFIG[aId];
+            if (cfg.tint && S.acc[aId].on) {
+              const grp = document.createElement('div');
+              grp.className = 'color-group';
+              grp.innerHTML = `
+                <div class="color-group-header">
+                  <span class="color-group-title">Màu ${cfg.name.toLowerCase()}</span>
+                  <span class="color-group-name" id="label-acc-${aId}">${getColorName(S.acc[aId].color)}</span>
+                </div>
+                <div class="swatch-row" id="row-acc-${aId}"></div>
+              `;
+              accColWrap.appendChild(grp);
+
+              buildSwatches(`row-acc-${aId}`, S.acc[aId].color, (c) => {
+                S.acc[aId].color = c;
+                document.getElementById(`label-acc-${aId}`).textContent = getColorName(c);
+                updateStage();
+                renderSummaryText();
+              });
+            }
+          });
+
+          renderSummaryText();
+          break;
+
+        /* BƯỚC 7: GIÀY DÉP */
+        case 7:
+          titleEl.textContent = 'Giày dép';
+          descEl.textContent = 'Bấm để thêm hoặc bỏ phụ kiện. Món màu trắng như hài thêu có thể đổi màu.';
+          btnNext.textContent = 'Tiếp tục: Lưu mẫu phối đồ';
+          btnNext.disabled = false;
+
+          const shoeKeys = Object.keys(SHOES_CONFIG).filter(k => {
+            const g = SHOES_CONFIG[k].gender;
+            return g === 'both' || g === S.gender;
+          });
+
+          let shoeHtml = '<div class="grid compact">';
+          shoeKeys.forEach(sId => {
+            const cfg = SHOES_CONFIG[sId];
+            shoeHtml += `
+              <div class="card compact ${S.shoe === sId ? 'selected' : ''}" id="card-shoe-${sId}" tabindex="0">
+                <div class="thumb"><img src="${cfg.file}" alt="${cfg.name}"></div>
+                <div class="card-info">
+                  <div class="card-title">${cfg.name}</div>
+                  <div class="card-sub">${cfg.sub}</div>
+                </div>
+              </div>
+            `;
+          });
+          shoeHtml += '</div>';
+
+          shoeHtml += '<div id="shoe-color-controls" style="margin-top: 24px;"></div>';
+          contentEl.innerHTML = shoeHtml;
+
+          shoeKeys.forEach(sId => {
+            document.getElementById(`card-shoe-${sId}`).onclick = () => {
+              S.shoe = (S.shoe === sId) ? null : sId;
+              renderCurrentStep();
+            };
+          });
+
+          const shoeColWrap = document.getElementById('shoe-color-controls');
+          if (S.shoe && SHOES_CONFIG[S.shoe].tint) {
+            const cfg = SHOES_CONFIG[S.shoe];
+            const grp = document.createElement('div');
+            grp.className = 'color-group';
+            grp.innerHTML = `
+              <div class="color-group-header">
+                <span class="color-group-title">Màu ${cfg.name.toLowerCase()}</span>
+                <span class="color-group-name" id="label-shoe">${getColorName(S.shoeColor)}</span>
+              </div>
+              <div class="swatch-row" id="row-shoe-color"></div>
+            `;
+            shoeColWrap.appendChild(grp);
+
+            buildSwatches('row-shoe-color', S.shoeColor, (c) => {
+              S.shoeColor = c;
+              document.getElementById('label-shoe').textContent = getColorName(c);
+              updateStage();
+              renderSummaryText();
+            });
+          }
+
+          renderSummaryText();
+          break;
+      }
+    }
+
+    /**
+     * TẠO HÀNG CHỌN MÀU (SWATCHES)
+     */
+    function buildSwatches(containerId, activeHex, onSelect) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      container.innerHTML = '';
+
+      let isPreset = false;
+
+      PALETTE.forEach(p => {
+        const btn = document.createElement('button');
+        btn.className = 'swatch-btn';
+        btn.style.backgroundColor = p.hex;
+        btn.title = p.name;
+        if (p.hex.toLowerCase() === activeHex.toLowerCase()) {
+          btn.classList.add('selected');
+          isPreset = true;
+        }
+        btn.onclick = () => {
+          container.querySelectorAll('.swatch-btn, .custom-color-input').forEach(el => el.classList.remove('selected'));
+          btn.classList.add('selected');
+          onSelect(p.hex);
+        };
+        container.appendChild(btn);
+      });
+
+      // Ô "Tự chọn"
+      const wrap = document.createElement('div');
+      wrap.className = 'custom-swatch-wrap';
+
+      const label = document.createElement('span');
+      label.className = 'custom-swatch-label';
+      label.textContent = 'Tự chọn';
+
+      const input = document.createElement('input');
+      input.type = 'color';
+      input.className = 'custom-color-input';
+      input.value = activeHex;
+      if (!isPreset) input.classList.add('selected');
+
+      input.oninput = (e) => {
+        container.querySelectorAll('.swatch-btn').forEach(el => el.classList.remove('selected'));
+        input.classList.add('selected');
+        onSelect(e.target.value);
+      };
+
+      wrap.appendChild(label);
+      wrap.appendChild(input);
+      container.appendChild(wrap);
+    }
+
+    /**
+     * DÒNG TÓM TẮT PHỐI ĐỒ (MỤC 4 BƯỚC 6)
+     */
+    function renderSummaryText() {
+      const summaryEl = document.getElementById('step-summary');
+      if (!summaryEl) return;
+
+      const genText = S.gender === 'male' ? 'Manocanh nam' : 'Manocanh nữ';
+      const topName = S.top ? TOPS_CONFIG[S.top].name : '';
+      const topCol = getColorName(S.tc).toLowerCase();
+      const pName = S.pants ? PANTS_CONFIG[S.pants].name.toLowerCase() : '';
+      const pCol = getColorName(S.pc).toLowerCase();
+
+      let patText = '';
+      if (S.pat && S.pat !== 'none') {
+        const patObj = PATTERNS_CONFIG.find(x => x.id === S.pat);
+        if (patObj) patText = `, họa tiết ${patObj.name.toLowerCase()}`;
+      }
+
+      const onAccs = Object.keys(ACCESSORIES_CONFIG)
+        .filter(k => S.acc[k].on)
+        .map(k => ACCESSORIES_CONFIG[k].name.toLowerCase());
+
+      let accText = '';
+      if (onAccs.length > 0) {
+        accText = `; phụ kiện: ${onAccs.join(', ')}`;
+      }
+
+      let shoeText = '';
+      if (S.shoe) {
+        shoeText = `; giày dép: ${SHOES_CONFIG[S.shoe].name.toLowerCase()}`;
+      }
+
+      summaryEl.textContent = `${genText}: ${topName} màu ${topCol}${patText}; ${pName} màu ${pCol}${accText}${shoeText}.`;
+      summaryEl.style.display = 'block';
+    }
+
+    /**
+     * XUẤT ẢNH PNG (MỤC 6)
+     */
+    function exportImage() {
+      const gender = S.gender;
+      const body = BODIES[gender];
+      const HT = body.mh + PAD;
+
+      const canvas = document.createElement('canvas');
+      canvas.width = WC + 80;
+      canvas.height = HT + 80;
+      const ctx = canvas.getContext('2d');
+
+      // Nền radial gradient
+      const grad = ctx.createRadialGradient(
+        canvas.width / 2, canvas.height * 0.2, 40,
+        canvas.width / 2, canvas.height * 0.2, canvas.height
+      );
+      grad.addColorStop(0, '#2A3B66');
+      grad.addColorStop(0.62, '#1D2A4B');
+      grad.addColorStop(1, '#141D36');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Thân manocanh
+      const bodyItem = SRC[`body_${gender}`];
+      if (bodyItem && bodyItem.img) {
+        ctx.drawImage(bodyItem.img, 40 + (WC - body.mw) / 2, 40 + PAD, body.mw, body.mh);
+      }
+
+      // Quần
+      if (S.pants) {
+        const pCfg = PANTS_CONFIG[S.pants];
+        const pCvs = tint(S.pants, S.pc, false, 0);
+        if (pCvs) {
+          const pBox = getBox('pants', gender, pCfg, SRC[S.pants]);
+          const x = 40 + (pBox.left / 100) * WC;
+          const y = 40 + (pBox.top / 100) * HT;
+          const w = (pBox.width / 100) * WC;
+          const h = (pBox.height / 100) * HT;
+          ctx.drawImage(pCvs, x, y, w, h);
+        }
+      }
+
+      // Áo
+      if (S.top) {
+        const tCfg = TOPS_CONFIG[S.top];
+        const pat = S.pat;
+        const hasPat = pat && pat !== 'none';
+        const key = hasPat ? `${S.top}_${pat}` : `${S.top}_${tCfg.base}`;
+        const tCvs = tint(key, S.tc, hasPat, S.po);
+        if (tCvs) {
+          const tBox = getBox('top', gender, tCfg, SRC[key]);
+          const x = 40 + (tBox.left / 100) * WC;
+          const y = 40 + (tBox.top / 100) * HT;
+          const w = (tBox.width / 100) * WC;
+          const h = (tBox.height / 100) * HT;
+          ctx.drawImage(tCvs, x, y, w, h);
+        }
+      }
+
+      // Phụ kiện
+      Object.keys(ACCESSORIES_CONFIG).forEach(accId => {
+        const accSt = S.acc[accId];
+        if (accSt && accSt.on) {
+          const cfg = ACCESSORIES_CONFIG[accId];
+          const aBox = getBox('acc', gender, cfg, SRC[accId]);
+          const el = cfg.tint ? tintAcc(accId, accSt.color) : (SRC[accId] ? SRC[accId].img : null);
+          if (el) {
+            const cx = 40 + ((WC / 2 + cfg.cx) / WC) * WC;
+            const cy = 40 + ((PAD + cfg.cy) / HT) * HT;
+            const w = (aBox.width / 100) * WC;
+            const h = (aBox.height / 100) * HT;
+
+            ctx.save();
+            ctx.translate(cx, cy);
+            if (cfg.rot) ctx.rotate((cfg.rot * Math.PI) / 180);
+            ctx.drawImage(el, -w / 2, -h / 2, w, h);
+            ctx.restore();
+          }
+        }
+      });
+
+      // Giày dép
+      if (S.shoe) {
+        const sCfg = SHOES_CONFIG[S.shoe];
+        if (sCfg) {
+          const sBox = getBox('shoe', gender, sCfg, SRC[S.shoe]);
+          const el = sCfg.tint ? tintAcc(S.shoe, S.shoeColor) : (SRC[S.shoe] ? SRC[S.shoe].img : null);
+          if (el) {
+            const x = 40 + (sBox.left / 100) * WC;
+            const y = 40 + (sBox.top / 100) * HT;
+            const w = (sBox.width / 100) * WC;
+            const h = (sBox.height / 100) * HT;
+            ctx.drawImage(el, x, y, w, h);
+          }
+        }
+      }
+
+      // Tải về file phoi-co-phuc.png
+      const link = document.createElement('a');
+      link.download = 'phoi-co-phuc.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    /**
+     * SỰ KIỆN NÚT BẤM TIẾP TỤC / QUAY LẠI
+     */
+    document.getElementById('btn-prev').onclick = () => {
+      if (S.step > 1) {
+        S.step--;
+        renderCurrentStep();
+      }
+    };
+
+    document.getElementById('btn-next').onclick = () => {
+      if (S.step === 7) {
+        exportImage();
+        return;
+      }
+      if (S.step < 7) {
+        S.step++;
+        if (S.step > S.max) S.max = S.step;
+        renderCurrentStep();
+      }
+    };
+
+    /**
+     * KHỞI TẠO ỨNG DỤNG & TẢI TÀI NGUYÊN
+     */
+    async function init() {
+      // Danh sách tất cả hình ảnh cần nạp trước
+      const loadTasks = [
+        { key: 'body_female', url: BODIES.female.file },
+        { key: 'body_male',   url: BODIES.male.file },
+        { key: 'quan_nu',     url: PANTS_CONFIG.quan_nu.file },
+        { key: 'quan_nam',    url: PANTS_CONFIG.quan_nam.file }
+      ];
+
+      // Áo và họa tiết
+      const tops = ['nu_ao_tac', 'nu_ao_dai', 'nu_ngu_than', 'nam_ao_tac', 'nam_ao_dai', 'nam_ngu_than'];
+      const pats = ['rongphuong', 'hoasen', 'hoacuc', 'chuTho', 'chuBatBuu'];
+
+      tops.forEach(t => {
+        pats.forEach(p => {
+          loadTasks.push({ key: `${t}_${p}`, url: `img/${t}_${p}.png` });
+        });
+      });
+
+      // Phụ kiện
+      Object.keys(ACCESSORIES_CONFIG).forEach(k => {
+        loadTasks.push({ key: k, url: ACCESSORIES_CONFIG[k].file });
+      });
+
+      // Giày dép
+      Object.keys(SHOES_CONFIG).forEach(k => {
+        loadTasks.push({ key: k, url: SHOES_CONFIG[k].file });
+      });
+
+      // Tải toàn bộ tài nguyên
+      await Promise.all(loadTasks.map(async task => {
+        const res = await loadImg(task.url);
+        if (res) SRC[task.key] = res;
+      }));
+
+      // Tiền xử lý các phụ kiện tint
+      Object.keys(ACCESSORIES_CONFIG).forEach(k => {
+        if (ACCESSORIES_CONFIG[k].tint) prepareAcc(k);
+      });
+      Object.keys(SHOES_CONFIG).forEach(k => {
+        if (SHOES_CONFIG[k].tint) prepareAcc(k);
+      });
+
+      // Dựng màn Intro mẫu
+      const introFemaleState = {
+        gender: 'female',
+        pants: 'quan_nu',
+        pc: '#FFFFFF',
+        top: 'nu_ao_tac',
+        tc: '#B3262E',
+        pat: 'rongphuong',
+        po: 0.55,
+        acc: {},
+        shoe: null
+      };
+
+      const introMaleState = {
+        gender: 'male',
+        pants: 'quan_nam',
+        pc: '#FFFFFF',
+        top: 'nam_ao_tac',
+        tc: '#2C3E6B',
+        pat: 'hoasen',
+        po: 0.55,
+        acc: {},
+        shoe: null
+      };
+
+      renderStage(document.getElementById('intro-stage-female'), introFemaleState);
+      renderStage(document.getElementById('intro-stage-male'), introMaleState);
+
+      // Nút "Bắt đầu thử đồ"
+      document.getElementById('btn-start-intro').onclick = () => {
+        const intro = document.getElementById('intro-screen');
+        intro.classList.add('hide');
+        setTimeout(() => {
+          intro.style.display = 'none';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }, 500);
+      };
+
+      // Bắt đầu bước 1
+      renderCurrentStep();
+    }
+
+    // Khởi chạy khi DOM sẵn sàng
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
