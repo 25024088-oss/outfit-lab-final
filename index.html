@@ -345,8 +345,11 @@
     .stage {
       position: relative;
       width: 100%;
-      height: min(70vh, 700px);
+      height: auto;
       z-index: 2;
+      aspect-ratio: var(--ar);
+      max-width: calc(var(--stage-h) * var(--ar));
+      margin: 0 auto;
     }
 
     .stage img, .stage canvas {
@@ -721,7 +724,7 @@
       </div>
 
       <div class="intro-preview-panel">
-        <div id="intro-stage-female" class="stage" style="height: 380px;"></div>
+        <div id="intro-stage-female" class="stage" style="--stage-h: 380px;"></div>
         <div id="intro-stage-male" class="stage" style="height: 380px;"></div>
       </div>
     </div>
@@ -1146,7 +1149,7 @@
       const gender = state.gender;
       const body = BODIES[gender];
       const HT = body.mh + PAD;
-      containerEl.style.aspectRatio = `${WC} / ${HT}`;
+      containerEl.style.setProperty('--ar', WC / HT);
 
       // 1. Thân Manocanh
       const bodySrc = SRC[`body_${gender}`];
